@@ -1,4 +1,6 @@
 import { Bot, Context } from "grammy";
+import { Risc0Handler } from "./build_proof";
+import { send_proof } from "./send_proof";
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -31,6 +33,10 @@ bot.command("submit", async (ctx: Context) => {
   const messageText = ctx.message?.text;
 
   const signedMessage = messageText!.split(" ")[1];
+  // Building proof
+  const rc = new Risc0Handler();
+  rc.generateProof().catch(console.error);
+  await send_proof();
 
   // chatId for our private chat that users can get access to
   // retrieved via: console.log("CHAT ID", ctx.chat!.id);
