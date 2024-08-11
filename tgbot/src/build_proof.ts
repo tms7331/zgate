@@ -48,7 +48,7 @@ export class Risc0Handler implements ProofHandler {
     }
 
     async generateProof(): Promise<ProofData<any>> {
-        const inputData = "abcdefg";
+        const inputData = "yoohoo";
 
         const topLevelDir = path.resolve(__dirname, "../../");
         const binaryPath = path.join(topLevelDir, "bin/host");

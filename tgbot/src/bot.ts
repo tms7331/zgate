@@ -34,8 +34,10 @@ bot.command("submit", async (ctx: Context) => {
 
   const signedMessage = messageText!.split(" ")[1];
   // Building proof
+  await ctx.reply("Generating risc zero proof...");
   const rc = new Risc0Handler();
-  rc.generateProof().catch(console.error);
+  await rc.generateProof().catch(console.error);
+  await ctx.reply("Proof generation successful!  Sending proof to zkVerify...");
   await send_proof();
 
   // chatId for our private chat that users can get access to
@@ -45,7 +47,7 @@ bot.command("submit", async (ctx: Context) => {
     member_limit: 1,
   });
 
-  await ctx.reply(`Here is your invite link: ${inviteLink.invite_link}`);
+  await ctx.reply(`Proof verification successful!  Here is your invite link: ${inviteLink.invite_link}`);
 
 });
 

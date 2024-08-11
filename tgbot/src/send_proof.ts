@@ -22,7 +22,7 @@ export const send_proof = async (): Promise<void> => {
 
     const { api, provider, account } = await initializeApi();
 
-    const topLevelDir = path.resolve(__dirname, "../../");
+    const topLevelDir = path.resolve(__dirname, "../");
 
     try {
         console.log(`Generating the proof for ${proofType}`);
@@ -30,13 +30,11 @@ export const send_proof = async (): Promise<void> => {
         // const { proof, publicSignals, vk } = await generateAndNativelyVerifyProof(proofType);
         const proof = await loadTextFile(path.join(topLevelDir, "proof.txt"));
         const publicSignals = await loadTextFile(path.join(topLevelDir, "pub.txt"));
-        const vk = await loadTextFile(path.join(topLevelDir, "vk.txt"));
-        // const vk = "2fd397b7172f0b1ba07bd73946c3c9fdd81c687f10195117fbf2bcbcc49ab6a2"; // await loadTextFile("vk.txt");
+        let vk = await loadTextFile(path.join(topLevelDir, "vk.txt"));
 
         console.log(`${proofType} Proof generated and natively verified.`);
         console.log("PUBLIC SIGNALS: ", publicSignals);
         console.log("VK: ", vk);
-
 
         const proofParams = [
             { 'Vk': vk },
@@ -56,13 +54,15 @@ export const send_proof = async (): Promise<void> => {
         const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
         console.log(`Sent 1 proof, elapsed time: ${elapsedTime}s, result: ${result.result}, attestationId: ${result.attestationId}`);
 
+
     } catch (error) {
         console.error(`Failed to send proof: ${error}`);
-    } finally {
-        if (api) await api.disconnect();
-        if (provider) await provider.disconnect();
-        process.exit(0);
     }
+    // finally {
+    //     if (api) await api.disconnect();
+    //     if (provider) await provider.disconnect();
+    //     process.exit(0);
+    // }
 };
 
 // send_proof().catch(console.error);
