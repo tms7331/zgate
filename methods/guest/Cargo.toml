@@ -1,0 +1,38 @@
+[package]
+name = "erc20-guest"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+
+[dependencies]
+# Force the `compile-time-rng` feature, to prevent `getrandom` from being used.
+ahash = { version = "0.8", default-features = false, features = [
+    "compile-time-rng",
+] }
+alloy-primitives = { version = "0.7", features = ["serde", "rlp", "std"] }
+alloy-sol-types = { version = "0.7" }
+k256 = { version = "=0.13.3", features = [
+    "arithmetic",
+    "serde",
+    "expose-field",
+    "std",
+    "ecdsa",
+], default-features = false }
+risc0-steel = "0.11.1"
+risc0-zkvm = { version = "1.0.1", default-features = false, features = ["std"] }
+hex = "0.4"
+
+[patch.crates-io]
+# Use optimized risc0 circuit
+# Placing these patch statement in the workspace Cargo.toml will add RISC Zero SHA-256 and bigint
+# multiplication accelerator support for all downstream usages of the following crates.
+sha2 = { git = "https://github.com/risc0/RustCrypto-hashes", tag = "sha2-v0.10.8-risczero.0" }
+k256 = { git = "https://github.com/risc0/RustCrypto-elliptic-curves", tag = "k256/v0.13.3-risczero.0" }
+crypto-bigint = { git = "https://github.com/risc0/RustCrypto-crypto-bigint", tag = "v0.5.5-risczero.0" }
+
+[profile.release]
+# Empirically observed to result in the best performance for this binary (in particular, better than
+# "fat"). It's often a good idea to experiment with different optimization levels and options.
+codegen-units = 1
+lto = "thin"
