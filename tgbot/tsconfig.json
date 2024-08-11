@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "ES2015", // Specify ECMAScript target version
+        "module": "commonjs", // Specify module code generation
+        "strict": true, // Enable all strict type-checking options
+        "esModuleInterop": true, // Enable compatibility with CommonJS modules
+        "forceConsistentCasingInFileNames": true, // Ensure consistent file naming
+        "skipLibCheck": true, // Skip type checking of declaration files
+        "outDir": "./dist", // Specify output directory for compiled files
+        "rootDir": "./src", // Specify root directory of input files
+        "resolveJsonModule": true, // Include modules from .json files
+        "sourceMap": true // Generate source map files
+    },
+    "include": [
+        "src/**/*.ts"
+    ], // Include all TypeScript files in the src directory
+    "exclude": [
+        "node_modules",
+        "**/*.test.ts"
+    ] // Exclude node_modules and test files
+}
